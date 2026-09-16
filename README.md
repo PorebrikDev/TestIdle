@@ -9,7 +9,6 @@
 \## Запуск
 
 
-
 1\. Unity \*\*6000.3.22f1\*\*
 
 2\. Открыть проект в Unity Hub
@@ -18,25 +17,7 @@
 
 4\. Нажать Play
 
-
-
 \## Android build
-
-
-
-1\. `File → Build Settings`
-
-2\. Platform: \*\*Android\*\* → `Switch Platform`
-
-3\. `Build` → сохранить APK
-
-4\. Установить на устройство
-
-
-
-Package name и минимальная версия Android — по умолчанию (в `Project Settings → Player`).
-
-
 
 \## Что реализовано
 
