@@ -1,4 +1,4 @@
-using TMPro;
+Ôªøusing TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +13,11 @@ public class MachineCard : MonoBehaviour
     [SerializeField] private TMP_Text _UpgraidCost;
     [SerializeField] private TMP_Text _prefomanceMachineText;
     [SerializeField] private TMP_Text _boostTimeer;
+
     [SerializeField] private Image _icon;
+
+    private Coroutine _boostCoroutine;
+    private WaitForSeconds _wait = new WaitForSeconds(300);
 
     private Machine _machine;
     private int _id;
@@ -38,7 +42,6 @@ public class MachineCard : MonoBehaviour
 
     private void OnOpenClicked() => _onOpen?.Invoke(_id);
     private void OnUpgradeClicked() => _onUpgrade?.Invoke(_id);
-    private void OnBoostClicked() => _onBoost?.Invoke(_id);
 
     public void Refresh()
     {
@@ -48,10 +51,11 @@ public class MachineCard : MonoBehaviour
 
         if (!m.IsLocked)
         {
-            _prefomanceMachineText.text = $"{m.CPS:F1}/ÒÂÍ";
+            _prefomanceMachineText.text = $"{m.CPS:F1}/—Å–µ–∫";
             _UpgraidCost.text = $"{m.UpgradeCost:F0}";
             _openCost.text = "";
             _icon.sprite = m.Icon;
+            _boostTimeer.text = m.IsBoosted ? "X2" : "";
 
             _openButton.gameObject.SetActive(false);
             _upgraidButton.gameObject.SetActive(true);
@@ -59,7 +63,7 @@ public class MachineCard : MonoBehaviour
         }
         else
         {
-            // Á‡Í˚Ú‡ˇ
+            // –∑–∞–∫—Ä—ã—Ç–∞—è
             _openCost.text = $"{m.UnlockCost:F0}";
             _prefomanceMachineText.text = "";
             _UpgraidCost.text = "";
@@ -69,6 +73,32 @@ public class MachineCard : MonoBehaviour
             _upgraidButton.gameObject.SetActive(false);
             _boostButton.gameObject.SetActive(false);
         }
+    }
+
+    private void OnBoostClicked()
+    {
+        _onBoost?.Invoke(_id); 
+        StartBoost();
+    }
+
+    private void StartBoost()
+    {
+        if (_machine.IsLocked) return;
+        if (_machine.IsBoosted) return;  
+
+        _machine.ActivateBoost();
+        Refresh();
+
+        if (_boostCoroutine != null) StopCoroutine(_boostCoroutine);
+        _boostCoroutine = StartCoroutine(BoostTimer());
+    }
+
+    private System.Collections.IEnumerator BoostTimer()
+    {
+        yield return _wait;  
+        _machine.DeactivateBoost();
+        Refresh();
+        _boostCoroutine = null;
     }
 
     private void OnDestroy()
