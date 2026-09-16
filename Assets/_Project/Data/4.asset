@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd97e26fc04226a4d8574a94ff076dab, type: 3}
+  m_Name: 4
+  m_EditorClassIdentifier: Assembly-CSharp::DataMashine
+  Id: 4
+  BaseCps: 4
+  Icon: {fileID: -1255047246536537153, guid: c3c677322c5b0a946b523db76bfe83f2, type: 3}
+  Defolt: {fileID: -320273456, guid: c3c677322c5b0a946b523db76bfe83f2, type: 3}
+  NameStages:
+  - MinLvl: 0
+    Name: "\u0411\u0443\u0440\u0433\u0435\u0440\u043D\u0430\u044F"
+  - MinLvl: 5
+    Name: "\u0411\u0443\u0440\u0433\u0435\u0440-\u0431\u0430\u0440"
+  - MinLvl: 10
+    Name: "\u0411\u0443\u0440\u0433\u0435\u0440-\u0445\u0430\u0443\u0441"
+  - MinLvl: 15
+    Name: "\u0421\u0435\u0442\u044C \u0431\u0443\u0440\u0433\u0435\u0440\u043D\u044B\u0445"
+  - MinLvl: 20
+    Name: "\u0411\u0443\u0440\u0433\u0435\u0440-\u0438\u043C\u043F\u0435\u0440\u0438\u044F"
