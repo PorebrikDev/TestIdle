@@ -34,7 +34,6 @@ public class IapService : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.LogError($"[IAP] Init failed: {e}");
             OnPurchaseFailed?.Invoke("Не удалось подключиться к магазину");
         }
     }
@@ -53,7 +52,6 @@ public class IapService : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.LogError($"[IAP] Purchase error: {e}");
             OnPurchaseFailed?.Invoke("Не удалось начать покупку");
         }
     }
@@ -61,31 +59,39 @@ public class IapService : MonoBehaviour
     private void HandleProductsFetched(List<Product> products)
     {
         _initialized = true;
-        Debug.Log("[IAP] Ready to purchase");
     }
 
     private void HandleProductsFetchFailed(ProductFetchFailed failure)
     {
-        Debug.LogError($"[IAP] Fetch failed: {failure.FailureReason}");
         OnPurchaseFailed?.Invoke("Товар недоступен в магазине");
     }
 
     private void HandlePurchasePending(PendingOrder order)
     {
-        Debug.Log("[IAP] Purchase succeeded");
         _store.ConfirmPurchase(order);
+
+        Analytics.Track("purchase_succeeded", new Dictionary<string, object>
+    {
+        { "product", ProductId }
+    });
+
         OnPurchaseSucceeded?.Invoke();
     }
 
     private void HandlePurchaseFailed(FailedOrder order)
     {
         Debug.LogWarning($"[IAP] Purchase failed: {order.FailureReason}");
+
+        Analytics.Track("purchase_failed", new Dictionary<string, object>
+    {
+        { "reason", order.FailureReason.ToString() }
+    });
+
         OnPurchaseFailed?.Invoke(GetFriendlyMessage(order.FailureReason));
     }
 
     private void HandleStoreDisconnected(StoreConnectionFailureDescription failure)
     {
-        Debug.LogError($"[IAP] Store disconnected: {failure.Message}");
         _initialized = false;
         OnPurchaseFailed?.Invoke("Магазин недоступен");
     }

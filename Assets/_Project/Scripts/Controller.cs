@@ -18,6 +18,9 @@ public class Controller : MonoBehaviour
 
     private void Awake()
     {
+        Analytics.Init();                 
+        Analytics.Track("game_started");
+
         _saveService = new SaveService();
 
         _machines = new Machine[_configs.Length];
@@ -41,7 +44,10 @@ public class Controller : MonoBehaviour
         _coins -= cost;
         m.Upgrade();
         OnStateChanged?.Invoke();
+
+        Analytics.Track("machine_upgraded", new() { { "id", id }, { "level", m.Lvl } });
         Save();
+
         return true;
     }
 
@@ -56,6 +62,9 @@ public class Controller : MonoBehaviour
         _coins -= cost;
         m.Unlock();
         OnStateChanged?.Invoke();
+
+        Analytics.Track("machine_unlocked", new() { { "id", id } }); 
+
         Save();
         return true;
     }
